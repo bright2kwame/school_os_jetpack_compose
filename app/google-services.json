@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "262816338825",
+    "project_id": "schoolos-a7e0d",
+    "storage_bucket": "schoolos-a7e0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262816338825:android:eff182c31181f6ffa0c758",
+        "android_client_info": {
+          "package_name": "school.os.mobile.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "262816338825-7sf4pfucs9gvsobdr3qaqipq8ribacbk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBa3CdnM93FZRsA_MYARM0Hiwo6RmV8-OE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "262816338825-7sf4pfucs9gvsobdr3qaqipq8ribacbk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

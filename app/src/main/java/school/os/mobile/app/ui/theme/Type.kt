@@ -12,12 +12,13 @@ import androidx.compose.ui.unit.sp
 import school.os.mobile.app.R
 
 //creating a font theme for the application
-private val Roboto = FontFamily(
+val Roboto = FontFamily(
     Font(R.font.roboto_regular),
     Font(R.font.roboto_black, FontWeight.W500),
     Font(R.font.roboto_bold, FontWeight.Bold),
     Font(R.font.roboto_black, FontWeight.Black),
     Font(R.font.roboto_thin, FontWeight.Thin),
+    Font(R.font.roboto_light, FontWeight.ExtraLight),
     Font(R.font.roboto_medium, FontWeight.SemiBold),
     Font(R.font.roboto_italic, FontWeight.Thin, FontStyle.Italic),
 )
@@ -42,18 +43,28 @@ val Typography = Typography(
         letterSpacing = (-0.25).sp
     ),
     bodyLarge = defaultTextStyle.copy(
-        fontSize = 16.sp,
+        fontSize = 32.sp,
+        lineHeight = 32.sp,
+        letterSpacing = 0.5.sp
+    ),
+    bodySmall = defaultTextStyle.copy(
+        fontSize = 24.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
     titleLarge = defaultTextStyle.copy(
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
+        fontSize = 24.sp,
+        lineHeight = 22.sp,
         letterSpacing = 0.sp
     ),
-    labelSmall = defaultTextStyle.copy(
-        fontSize = 11.sp,
+    titleMedium = defaultTextStyle.copy(
+        fontSize = 16.sp,
         lineHeight = 16.sp,
+        letterSpacing = 0.sp
+    ),
+    titleSmall = defaultTextStyle.copy(
+        fontSize = 8.sp,
+        lineHeight = 8.sp,
         letterSpacing = 0.5.sp
     )
 )

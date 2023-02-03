@@ -12,10 +12,9 @@
         android:theme="@style/Theme.SchoolOS"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".OnboardPage"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.SchoolOS">
+            android:theme="@style/Theme.OnboardTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

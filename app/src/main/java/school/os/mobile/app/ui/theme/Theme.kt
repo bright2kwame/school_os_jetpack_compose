@@ -3,27 +3,21 @@ package school.os.mobile.app.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.core.view.ViewCompat
-import school.os.mobile.app.Greeting
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80,
-    background = Color(0xFFFFFBFE),
+    primary = Primary,
+    secondary = Secondary,
+    tertiary = Tertiary,
+    background = Background,
     surface = Color(0xFFFFFBFE),
     onPrimary = Color.White,
     onSecondary = Color.White,
@@ -33,9 +27,9 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40,
+    primary = LightPrimary,
+    secondary = LightSecondary,
+    tertiary = LightTertiary,
     background = Color(0xFFFFFBFE),
     surface = Color(0xFFFFFBFE),
     onPrimary = Color.White,
@@ -72,5 +66,34 @@ fun SchoolOSTheme(
         colorScheme = colorScheme,
         typography = Typography,
         content = content
+    )
+}
+
+//MARK: onboard theme
+@Composable
+fun SchoolOnboardTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    val colorScheme = LightColorScheme
+    val systemUIController = rememberSystemUiController()
+    systemUIController.isStatusBarVisible = false
+    systemUIController.setStatusBarColor(color = PrimaryDark)
+    systemUIController.setNavigationBarColor(color = PrimaryDark)
+    systemUIController.setSystemBarsColor(color = PrimaryDark)
+    if (darkTheme) {
+        systemUIController.setSystemBarsColor(
+            color = LightPrimaryDark
+        )
+    } else {
+        systemUIController.setSystemBarsColor(
+            color = PrimaryDark
+        )
+    }
+    MaterialTheme(
+        colorScheme = colorScheme,
+        shapes = Shapes,
+        typography = Typography,
+        content = content,
     )
 }
