@@ -1,7 +1,6 @@
-package school.os.mobile.app
+package school.os.mobile.app.ui.pages
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.animateDpAsState
@@ -19,14 +18,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
+import school.os.mobile.app.R
 import school.os.mobile.app.model.OnboardPageItem
 import school.os.mobile.app.model.onboardPages
 import school.os.mobile.app.ui.theme.*
+import school.os.mobile.app.utils.ScreenAndRoute
 
 class OnboardPage : ComponentActivity() {
 
@@ -66,6 +69,7 @@ fun DefaultPreview() {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PagerUI(items: List<OnboardPageItem>, pagerState: PagerState, modifier: Modifier) {
+    val navController = rememberNavController()
     Box(modifier = modifier) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             HorizontalPager(pageCount = items.size, state = pagerState) {
@@ -77,7 +81,9 @@ fun PagerUI(items: List<OnboardPageItem>, pagerState: PagerState, modifier: Modi
                     verticalArrangement = Arrangement.Top
                 ) {
                     Image(
-                        painter = painterResource(id = items[it].image), contentDescription = "",
+                        contentScale = ContentScale.Inside,
+                        painter = painterResource(id = items[it].image),
+                        contentDescription = "",
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(all = 8.dp)
@@ -125,10 +131,12 @@ fun PagerUI(items: List<OnboardPageItem>, pagerState: PagerState, modifier: Modi
                             Button(
                                 modifier = Modifier
                                     .fillMaxWidth(),
+                                shape = ButtonShapes.small,
                                 colors = ButtonDefaults.buttonColors(containerColor = Primary),
                                 contentPadding = PaddingValues(16.dp),
+                                elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp, pressedElevation = 4.5.dp),
                                 onClick = {
-                                    Log.e("Error", "Check Here")
+                                    navController.navigate(ScreenAndRoute.MainScreen.route)
                                 }) {
                                     Text(text = stringResource(id = R.string.get_started), textAlign = TextAlign.Center, style = Typography.titleMedium)
 

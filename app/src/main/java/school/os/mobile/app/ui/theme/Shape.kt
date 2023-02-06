@@ -12,4 +12,12 @@ val Shapes = Shapes(
 
 val OnboardBottomCardShapes = Shapes(
     large = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
+    small = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
+    medium = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+)
+
+val ButtonShapes = Shapes(
+    large = RoundedCornerShape(percent = 50),
+    small = RoundedCornerShape(percent = 10),
+    medium = RoundedCornerShape(percent = 25),
 )

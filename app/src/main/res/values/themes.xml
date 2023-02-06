@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.SchoolOS" parent="android:Theme.Material.Light.NoActionBar" >
+
+    <style name="Theme.SchoolOS" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@color/white</item>
         <item name="android:textColorPrimary">@color/primary_color_dark</item>
         <item name="android:textColor">@color/primary_color</item>
