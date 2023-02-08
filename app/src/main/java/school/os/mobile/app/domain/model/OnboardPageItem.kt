@@ -1,4 +1,4 @@
-package school.os.mobile.app.model
+package school.os.mobile.app.domain.model
 
 import androidx.compose.ui.graphics.Color
 import school.os.mobile.app.R

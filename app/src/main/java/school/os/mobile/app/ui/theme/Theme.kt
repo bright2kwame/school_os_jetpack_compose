@@ -78,9 +78,9 @@ fun SchoolOnboardTheme(
     val colorScheme = LightColorScheme
     val systemUIController = rememberSystemUiController()
     systemUIController.isStatusBarVisible = false
-    systemUIController.setStatusBarColor(color = PrimaryDark)
-    systemUIController.setNavigationBarColor(color = PrimaryDark)
-    systemUIController.setSystemBarsColor(color = PrimaryDark)
+    systemUIController.setStatusBarColor(color = White)
+    systemUIController.setNavigationBarColor(color = White)
+    systemUIController.setSystemBarsColor(color = White)
     if (darkTheme) {
         systemUIController.setSystemBarsColor(
             color = LightPrimaryDark

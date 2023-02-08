@@ -38,8 +38,8 @@ val defaultTextStyle = TextStyle(
 // Set of Material typography styles to start with
 val Typography = Typography(
     displayLarge = defaultTextStyle.copy(
-        fontSize = 57.sp,
-        lineHeight = 64.sp,
+        fontSize = 56.sp,
+        lineHeight = 56.sp,
         letterSpacing = (-0.25).sp
     ),
     bodyLarge = defaultTextStyle.copy(
@@ -54,17 +54,17 @@ val Typography = Typography(
     ),
     titleLarge = defaultTextStyle.copy(
         fontSize = 24.sp,
-        lineHeight = 22.sp,
+        lineHeight = 24.sp,
         letterSpacing = 0.sp
     ),
     titleMedium = defaultTextStyle.copy(
-        fontSize = 16.sp,
-        lineHeight = 16.sp,
+        fontSize = 20.sp,
+        lineHeight = 20.sp,
         letterSpacing = 0.sp
     ),
     titleSmall = defaultTextStyle.copy(
-        fontSize = 8.sp,
-        lineHeight = 8.sp,
-        letterSpacing = 0.5.sp
+        fontSize = 16.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.sp
     )
 )

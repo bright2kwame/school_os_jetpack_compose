@@ -1,12 +1,8 @@
 package school.os.mobile.app.ui.pages
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,67 +12,60 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import school.os.mobile.app.R
 import school.os.mobile.app.ui.AppPrimaryButton
 import school.os.mobile.app.ui.AppPrimaryOutlineButton
 import school.os.mobile.app.ui.theme.SchoolOnboardTheme
 import school.os.mobile.app.ui.theme.Typography
+import school.os.mobile.app.utils.ScreenAndRoute
 
-class RegisterOrLoginPage : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            SchoolOnboardTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    MainContent()
-                }
-            }
-        }
-    }
-}
 
 //MARK: the main content area
 @Composable
-fun MainContent() {
+fun RegisterOrLoginScreen(navController: NavHostController) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceAround
+        verticalArrangement = Arrangement.SpaceAround,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp)
     ) {
         Spacer(modifier = Modifier.weight(1.0f))
         Text(
             text = stringResource(id = R.string.welcome_title),
             textAlign = TextAlign.Center,
-            style = Typography.titleMedium
+            style = Typography.titleMedium,
+            modifier = Modifier.padding(16.dp)
         )
         Text(
             text = stringResource(id = R.string.welcome_message),
             textAlign = TextAlign.Center,
-            style = Typography.bodySmall
+            style = Typography.titleSmall,
+            modifier = Modifier.padding(16.dp)
         )
         AppPrimaryButton(title = stringResource(id = R.string.login_title), click = {
-
+            navController.navigate(ScreenAndRoute.PhoneNumberScreen.route)
         })
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround
+        Box(
+            contentAlignment = Alignment.Center, modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp, bottom = 32.dp)
         ) {
-            Divider(color = Color.Gray, thickness = 1.dp)
-            Text(text = "Or", color = Color.Gray)
-            Divider(color = Color.Gray, thickness = 1.dp)
+            Divider(
+                color = Color.Gray, thickness = 0.5.dp,
+                modifier = Modifier.fillMaxWidth(1f)
+            )
+            Text(
+                text = stringResource(id = R.string.register_or_login),
+                color = Color.Gray,
+                style = Typography.titleSmall,
+                modifier = Modifier.background(color = Color.White)
+            )
         }
-        AppPrimaryOutlineButton(click = { }, title = stringResource(id = R.string.register_title))
+        AppPrimaryOutlineButton(click = {
+            navController.navigate(ScreenAndRoute.PhoneNumberScreen.withArgs(""))
+        }, title = stringResource(id = R.string.register_title))
         Spacer(modifier = Modifier.weight(1.0f))
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview2() {
-    SchoolOnboardTheme {
-        MainContent()
     }
 }

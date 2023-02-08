@@ -1,8 +1,5 @@
 package school.os.mobile.app.ui.pages
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -24,52 +21,35 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import school.os.mobile.app.R
-import school.os.mobile.app.model.OnboardPageItem
-import school.os.mobile.app.model.onboardPages
+import school.os.mobile.app.domain.model.OnboardPageItem
+import school.os.mobile.app.domain.model.onboardPages
 import school.os.mobile.app.ui.theme.*
 import school.os.mobile.app.utils.ScreenAndRoute
 
-class OnboardPage : ComponentActivity() {
-
-    @OptIn(ExperimentalFoundationApi::class)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            SchoolOnboardTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    val pager = rememberPagerState(initialPage = 0)
-                    PagerUI(
-                        items = onboardPages,
-                        pagerState = pager,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
-            }
-        }
-    }
-}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    PagerUI(
+    OnboardPagerScreen(
         items = onboardPages,
         pagerState = rememberPagerState(initialPage = 0),
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        navController = rememberNavController()
     )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PagerUI(items: List<OnboardPageItem>, pagerState: PagerState, modifier: Modifier) {
-    val navController = rememberNavController()
+fun OnboardPagerScreen(
+    items: List<OnboardPageItem>,
+    pagerState: PagerState,
+    modifier: Modifier,
+    navController: NavHostController
+) {
     Box(modifier = modifier) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             HorizontalPager(pageCount = items.size, state = pagerState) {
@@ -115,7 +95,8 @@ fun PagerUI(items: List<OnboardPageItem>, pagerState: PagerState, modifier: Modi
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = items[pagerState.currentPage].description, Modifier
+                            text = items[pagerState.currentPage].description,
+                            Modifier
                                 .fillMaxWidth()
                                 .padding(top = 20.dp, start = 40.dp, end = 20.dp, bottom = 20.dp),
                             color = Color.Gray,
@@ -128,17 +109,21 @@ fun PagerUI(items: List<OnboardPageItem>, pagerState: PagerState, modifier: Modi
                                 .fillMaxWidth()
                                 .padding(all = 32.dp)
                         ) {
-                            Button(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
+                            Button(modifier = Modifier.fillMaxWidth(),
                                 shape = ButtonShapes.small,
                                 colors = ButtonDefaults.buttonColors(containerColor = Primary),
                                 contentPadding = PaddingValues(16.dp),
-                                elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp, pressedElevation = 4.5.dp),
+                                elevation = ButtonDefaults.buttonElevation(
+                                    defaultElevation = 4.dp, pressedElevation = 4.5.dp
+                                ),
                                 onClick = {
-                                    navController.navigate(ScreenAndRoute.MainScreen.route)
+                                    navController.navigate(ScreenAndRoute.PhoneNumberScreen.route)
                                 }) {
-                                    Text(text = stringResource(id = R.string.get_started), textAlign = TextAlign.Center, style = Typography.titleMedium)
+                                Text(
+                                    text = stringResource(id = R.string.get_started),
+                                    textAlign = TextAlign.Center,
+                                    style = Typography.titleMedium
+                                )
 
                             }
                         }
@@ -154,8 +139,7 @@ fun PagerUI(items: List<OnboardPageItem>, pagerState: PagerState, modifier: Modi
 @Composable
 fun PagerIndicator(items: List<OnboardPageItem>, currentPage: Int) {
     Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.padding(top = 20.dp)
+        horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.padding(top = 20.dp)
     ) {
         repeat(items.size) {
             IndicatorPage(it == currentPage, items[currentPage].color)

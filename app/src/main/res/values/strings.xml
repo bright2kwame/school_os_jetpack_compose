@@ -6,4 +6,17 @@
     <string name="title_activity_register_or_login_page">RegisterOrLoginPage</string>
     <string name="welcome_title">Welcome of School OS</string>
     <string name="welcome_message">Payment of fees made easier and faster like never before.</string>
+    <string name="country_choose_title">Select Country Code</string>
+    <string name="register_or_login">" Or "</string>
+    <string name="no_internet_message">Failed to reach server, check internet connection</string>
+    <string name="unknown_error">Sorry, an unexpected error occurred</string>
+    <string name="enter_password">Enter password</string>
+    <string name="enter_password_again">Enter password again</string>
+    <string name="hide_password">Hide password</string>
+    <string name="show_password">Show password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="resend_code">Resend Verification?</string>
+    <string name="verify_number">Verify Number</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="enter_verification_code">Enter verification</string>
 </resources>

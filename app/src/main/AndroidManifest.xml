@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
+        android:name=".SchoolOSApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,13 +16,9 @@
         android:theme="@style/Theme.SchoolOS"
         tools:targetApi="31">
 
+
         <activity
-            android:name=".ui.pages.RegisterOrLoginPage"
-            android:exported="false"
-            android:label="@string/title_activity_register_or_login_page"
-            android:theme="@style/Theme.OnboardTheme" />
-        <activity
-            android:name=".ui.pages.OnboardPage"
+            android:name=".ui.pages.MainActivity"
             android:exported="true"
             android:label="@string/welcome_title"
             android:theme="@style/Theme.OnboardTheme">
