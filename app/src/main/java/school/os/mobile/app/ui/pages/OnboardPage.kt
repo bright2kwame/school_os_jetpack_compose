@@ -16,8 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,6 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import school.os.mobile.app.R
 import school.os.mobile.app.domain.model.OnboardPageItem
 import school.os.mobile.app.domain.model.onboardPages
+import school.os.mobile.app.ui.AppPrimaryButton
 import school.os.mobile.app.ui.theme.*
 import school.os.mobile.app.utils.ScreenAndRoute
 
@@ -50,6 +53,7 @@ fun OnboardPagerScreen(
     modifier: Modifier,
     navController: NavHostController
 ) {
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     Box(modifier = modifier) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             HorizontalPager(pageCount = items.size, state = pagerState) {
@@ -63,10 +67,11 @@ fun OnboardPagerScreen(
                     Image(
                         contentScale = ContentScale.Inside,
                         painter = painterResource(id = items[it].image),
-                        contentDescription = "",
+                        contentDescription = items[pagerState.currentPage].description,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(all = 8.dp)
+                            .height(screenHeight - 350.dp)
+                            .padding(all = 32.dp)
                     )
                 }
             }
@@ -89,43 +94,35 @@ fun OnboardPagerScreen(
                             text = items[pagerState.currentPage].title,
                             Modifier
                                 .fillMaxWidth()
-                                .padding(top = 20.dp, end = 30.dp, bottom = 10.dp),
-                            color = items[pagerState.currentPage].color,
+                                .padding(top = 32.dp, start = 16.dp, end = 16.dp),
+                            color = Color.Black,
                             style = Typography.titleLarge,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold
                         )
                         Text(
                             text = items[pagerState.currentPage].description,
                             Modifier
                                 .fillMaxWidth()
-                                .padding(top = 20.dp, start = 40.dp, end = 20.dp, bottom = 20.dp),
+                                .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 32.dp),
                             color = Color.Gray,
                             style = Typography.titleMedium,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Light
                         )
                         Spacer(modifier = Modifier.weight(1.0f))
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(all = 32.dp)
+                                .padding(all = 16.dp)
                         ) {
-                            Button(modifier = Modifier.fillMaxWidth(),
-                                shape = ButtonShapes.small,
-                                colors = ButtonDefaults.buttonColors(containerColor = Primary),
-                                contentPadding = PaddingValues(16.dp),
-                                elevation = ButtonDefaults.buttonElevation(
-                                    defaultElevation = 4.dp, pressedElevation = 4.5.dp
-                                ),
-                                onClick = {
+                            AppPrimaryButton(
+                                modifier = Modifier.fillMaxWidth(),
+                                click = {
                                     navController.navigate(ScreenAndRoute.PhoneNumberScreen.route)
-                                }) {
-                                Text(
-                                    text = stringResource(id = R.string.get_started),
-                                    textAlign = TextAlign.Center,
-                                    style = Typography.titleMedium
-                                )
-
-                            }
+                                },
+                                title = stringResource(id = R.string.get_started)
+                            )
                         }
 
                     }

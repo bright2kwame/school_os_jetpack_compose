@@ -12,12 +12,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,7 +22,6 @@ import androidx.navigation.compose.rememberNavController
 import school.os.mobile.app.R
 import school.os.mobile.app.ui.AppPrimaryButton
 import school.os.mobile.app.ui.CustomPasswordField
-import school.os.mobile.app.ui.theme.Primary
 import school.os.mobile.app.ui.theme.Typography
 
 

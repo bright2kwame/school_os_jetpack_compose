@@ -5,6 +5,7 @@ import school.os.mobile.app.R
 import school.os.mobile.app.ui.theme.ColorBlue
 import school.os.mobile.app.ui.theme.ColorGreen
 import school.os.mobile.app.ui.theme.ColorYellow
+import school.os.mobile.app.ui.theme.LightSecondary
 
 data class OnboardPageItem(
     val title: String,
@@ -30,6 +31,6 @@ val onboardPages = listOf(
         "Secure",
         "We will never know your Momo PIN in anyway.The app does not share your data with any third party. No internet connection required",
         R.drawable.ic_studying_adult,
-        ColorGreen
+        LightSecondary
     )
 )

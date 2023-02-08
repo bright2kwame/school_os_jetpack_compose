@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -30,7 +31,7 @@ import school.os.mobile.app.utils.ScreenAndRoute
 //MARK: all primary buttons used in the application
 @Composable
 fun AppPrimaryButton(
-    modifier: Modifier = Modifier.fillMaxWidth(),
+    modifier: Modifier = Modifier,
     click: () -> Unit,
     title: String
 ) {
@@ -38,7 +39,7 @@ fun AppPrimaryButton(
         modifier = modifier,
         shape = ButtonShapes.small,
         colors = ButtonDefaults.buttonColors(containerColor = Primary),
-        contentPadding = PaddingValues(12.dp),
+        contentPadding = PaddingValues(16.dp),
         elevation = ButtonDefaults.buttonElevation(
             defaultElevation = 4.dp,
             pressedElevation = 4.5.dp
@@ -46,7 +47,12 @@ fun AppPrimaryButton(
         onClick = {
             click()
         }) {
-        Text(text = title, textAlign = TextAlign.Center, style = Typography.titleMedium)
+        Text(
+            text = title,
+            textAlign = TextAlign.Center,
+            style = Typography.titleMedium,
+            fontWeight = FontWeight.SemiBold
+        )
     }
 }
 
@@ -59,7 +65,7 @@ fun AppPrimaryOutlineButton(click: () -> Unit, title: String) {
         shape = ButtonShapes.small,
         border = BorderStroke(1.dp, Primary),
         colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-        contentPadding = PaddingValues(12.dp),
+        contentPadding = PaddingValues(16.dp),
         onClick = {
             click()
         }) {
@@ -67,7 +73,8 @@ fun AppPrimaryOutlineButton(click: () -> Unit, title: String) {
             text = title,
             textAlign = TextAlign.Center,
             style = Typography.titleMedium,
-            color = Primary
+            color = Primary,
+            fontWeight = FontWeight.SemiBold
         )
 
     }
