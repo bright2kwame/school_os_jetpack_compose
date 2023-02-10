@@ -27,7 +27,7 @@ import school.os.mobile.app.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ResetPasswordPage(navController: NavHostController) {
+fun ResetPasswordPage(navController: NavHostController, phone: String) {
     var uniqueCode by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var passwordAgain by rememberSaveable { mutableStateOf("") }
@@ -100,6 +100,7 @@ fun ResetPasswordPage(navController: NavHostController) {
 @Composable
 fun DefaultPreviewReset() {
     ResetPasswordPage(
-        navController = rememberNavController()
+        navController = rememberNavController(),
+        phone = "+233500294411"
     )
 }

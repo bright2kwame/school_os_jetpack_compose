@@ -1,6 +1,6 @@
 package school.os.mobile.app.domain.repository
 
-import school.os.mobile.app.data.dto.UserDto
+import school.os.mobile.app.data.remote.dto.UserDto
 
 interface UserRepository {
 

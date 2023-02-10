@@ -22,6 +22,7 @@
     <string name="enter_verification_code">Enter verification</string>
     <string name="password_title_hint">Enter the password that you used to create the account: %s</string>
     <string name="new_password_title_hint">Enter a new password that will be used to protect your account: %s</string>
+    <string name="verify_message">Enter the verification that was sent to this number: %s</string>
     <string name="dialog_action_cancel">Cancel</string>
     <string name="dialog_action_later">Later</string>
     <string name="dialog_action_done">Done</string>
@@ -29,4 +30,6 @@
     <string name="dialog_action_try">Try Again</string>
     <string name="dialog_action_proceed">Proceed</string>
     <string name="error_password_not_matching">Please ensure that both passwords are the same</string>
+    <!-- home section -->
+    <string name="home_more">More</string>
 </resources>

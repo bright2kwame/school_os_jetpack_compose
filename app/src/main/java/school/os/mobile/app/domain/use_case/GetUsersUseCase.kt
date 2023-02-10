@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import school.os.mobile.app.R
-import school.os.mobile.app.data.dto.toUser
+import school.os.mobile.app.data.remote.dto.toUser
 import school.os.mobile.app.domain.model.User
 import school.os.mobile.app.domain.repository.UserRepository
 import school.os.mobile.app.utils.DataParser

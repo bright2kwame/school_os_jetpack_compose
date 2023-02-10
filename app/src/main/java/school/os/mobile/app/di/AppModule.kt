@@ -1,13 +1,12 @@
 package school.os.mobile.app.di
 
-import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import school.os.mobile.app.data.SchoolOSApi
+import school.os.mobile.app.data.remote.SchoolOSApi
 import school.os.mobile.app.data.repository.UserRepositoryImpl
 import school.os.mobile.app.domain.repository.UserRepository
 import school.os.mobile.app.utils.Constants

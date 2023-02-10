@@ -1,18 +1,14 @@
-package school.os.mobile.app.ui.pages
+package school.os.mobile.app.ui.pages.onboard
 
-import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,12 +17,13 @@ import androidx.navigation.compose.rememberNavController
 import school.os.mobile.app.R
 import school.os.mobile.app.ui.AppPrimaryButton
 import school.os.mobile.app.ui.CustomPasswordField
+import school.os.mobile.app.ui.pages.CustomAlertDialog
 import school.os.mobile.app.ui.theme.Typography
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreatePasswordPage(navController: NavHostController) {
+fun CreatePasswordPage(navController: NavHostController, phone: String) {
     var password by rememberSaveable { mutableStateOf("") }
     var passwordAgain by rememberSaveable { mutableStateOf("") }
     var showCustomDialog by remember {
@@ -47,7 +44,7 @@ fun CreatePasswordPage(navController: NavHostController) {
             style = Typography.titleMedium
         )
         Text(
-            text = stringResource(id = R.string.new_password_title_hint, "+233"),
+            text = stringResource(id = R.string.new_password_title_hint, phone),
             textAlign = TextAlign.Center,
             style = Typography.titleSmall,
             modifier = Modifier
@@ -104,6 +101,7 @@ fun CreatePasswordPage(navController: NavHostController) {
 @Composable
 fun DefaultPreviewCreatePassword() {
     CreatePasswordPage(
-        navController = rememberNavController()
+        navController = rememberNavController(),
+        phone = "+233500294411"
     )
 }

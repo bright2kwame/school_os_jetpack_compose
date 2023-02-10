@@ -36,7 +36,7 @@ import school.os.mobile.app.ui.theme.White
 
 //MARK: verify the phone number added to the field
 @Composable
-fun VerificationPage(navController: NavHostController) {
+fun VerificationPage(navController: NavHostController, phone: String) {
     var code by rememberSaveable { mutableStateOf("") }
 
     Column(
@@ -54,7 +54,7 @@ fun VerificationPage(navController: NavHostController) {
             style = Typography.titleMedium
         )
         Text(
-            text = stringResource(id = R.string.welcome_message),
+            text = stringResource(id = R.string.verify_message, phone),
             textAlign = TextAlign.Center,
             style = Typography.titleSmall,
             modifier = Modifier
@@ -157,6 +157,7 @@ private fun CharView(
 @Composable
 fun DefaultPreviewVerify() {
     VerificationPage(
-        navController = rememberNavController()
+        navController = rememberNavController(),
+        phone = "+233500294411"
     )
 }

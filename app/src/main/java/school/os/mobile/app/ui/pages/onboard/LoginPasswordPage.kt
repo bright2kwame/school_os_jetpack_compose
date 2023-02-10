@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.ramcosta.composedestinations.annotation.Destination
 import school.os.mobile.app.R
 import school.os.mobile.app.ui.AppPrimaryButton
 import school.os.mobile.app.ui.CustomPasswordField
@@ -24,8 +25,9 @@ import school.os.mobile.app.ui.theme.Typography
 
 //MARK: password for the user to login
 @OptIn(ExperimentalMaterial3Api::class)
+@Destination
 @Composable
-fun LoginPasswordPage(navController: NavHostController) {
+fun LoginPasswordPage(navController: NavHostController, phoneNumber: String) {
     var password by rememberSaveable { mutableStateOf("") }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -43,7 +45,7 @@ fun LoginPasswordPage(navController: NavHostController) {
             fontWeight = FontWeight.SemiBold
         )
         Text(
-            text = stringResource(id = R.string.password_title_hint, "+233"),
+            text = stringResource(id = R.string.password_title_hint, phoneNumber),
             textAlign = TextAlign.Center,
             style = Typography.titleSmall,
             modifier = Modifier
@@ -82,6 +84,7 @@ fun LoginPasswordPage(navController: NavHostController) {
 @Composable
 fun DefaultPreviewLoginPassword() {
     LoginPasswordPage(
-        navController = rememberNavController()
+        navController = rememberNavController(),
+        phoneNumber = "+233500294411"
     )
 }

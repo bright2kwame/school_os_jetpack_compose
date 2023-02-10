@@ -1,7 +1,7 @@
 package school.os.mobile.app.data.repository
 
-import school.os.mobile.app.data.SchoolOSApi
-import school.os.mobile.app.data.dto.UserDto
+import school.os.mobile.app.data.remote.SchoolOSApi
+import school.os.mobile.app.data.remote.dto.UserDto
 import school.os.mobile.app.domain.repository.UserRepository
 import javax.inject.Inject
 
