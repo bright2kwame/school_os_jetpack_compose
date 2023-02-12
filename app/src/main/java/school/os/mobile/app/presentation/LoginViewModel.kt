@@ -16,28 +16,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val useCase: GetUserLoginUseCase,
-    savedStateHandle: SavedStateHandle
+    private val useCase: GetUserLoginUseCase
 ) : ViewModel() {
     private val _state = mutableStateOf(UserState())
     val state: State<UserState> = _state
-    private var _phone: String = ""
-
-    init {
-        savedStateHandle.get<String>(Constants.ROUTE_PARAM_USER_PHONE)?.let { phone ->
-            _phone = phone
-        }
-    }
 
     // repository and passing it into live data
-    fun login(password: String) {
-        useCase(phone = _phone, password = password).onEach { result ->
+    fun login(phone: String, password: String) {
+        useCase(phone = phone, password = password).onEach { result ->
             when (result) {
                 is DataParser.Loading -> {
                     _state.value = UserState(isLoading = true, hasError = false)
                 }
                 is DataParser.Error -> {
-                    _state.value = UserState(error = result.message ?: "Something went wrong", hasError = true)
+                    _state.value =
+                        UserState(
+                            error = result.message ?: ViewModelConstants.SOMETHING_FAILED,
+                            hasError = true
+                        )
                 }
                 is DataParser.Success -> {
                     _state.value = UserState(data = result.data, hasError = false)

@@ -1,5 +1,6 @@
 package school.os.mobile.app.ui.pages.onboard
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -19,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -33,6 +35,7 @@ import school.os.mobile.app.ui.AppPrimaryButton
 import school.os.mobile.app.ui.theme.Primary
 import school.os.mobile.app.ui.theme.Typography
 import school.os.mobile.app.ui.theme.White
+import school.os.mobile.app.utils.ScreenAndRoute
 
 
 //MARK: verify the phone number added to the field
@@ -44,6 +47,8 @@ fun VerificationPage(
 ) {
     var code by rememberSaveable { mutableStateOf("") }
     val state = viewModel.state
+    val otpLength: Int = 4
+    val context = LocalContext.current
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceAround,
@@ -69,6 +74,7 @@ fun VerificationPage(
         OtpTextField(
             modifier = Modifier.fillMaxSize(),
             otpText = code,
+            otpCount = otpLength,
             onOtpTextChange = { text, isValid ->
                 code = text
             })
@@ -78,7 +84,20 @@ fun VerificationPage(
                 .padding(top = 64.dp),
             title = stringResource(id = R.string.verify_number),
             click = {
-
+                if (code.length < otpLength) {
+                    Toast.makeText(
+                        context, "Please enter OTP you received",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    navController.navigate(
+                        ScreenAndRoute.CreatePasswordScreen.withArgs(
+                            phoneNumber.plus(
+                                "@"
+                            ).plus(code)
+                        )
+                    )
+                }
             })
         Box() {
             if (!state.value.isLoading) TextButton(onClick = {
@@ -98,6 +117,13 @@ fun VerificationPage(
             )
         }
         Spacer(modifier = Modifier.weight(1.0f))
+        if (!state.value.hasError && state.value.data != null) {
+            Toast.makeText(
+                context,
+                state.value.data!!.responseMessage,
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 }
 

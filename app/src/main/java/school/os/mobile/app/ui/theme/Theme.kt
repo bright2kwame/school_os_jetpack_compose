@@ -87,7 +87,7 @@ fun SchoolOnboardTheme(
         )
     } else {
         systemUIController.setSystemBarsColor(
-            color = PrimaryDark
+            color = White
         )
     }
     MaterialTheme(

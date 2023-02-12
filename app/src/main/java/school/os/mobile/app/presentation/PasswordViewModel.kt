@@ -10,30 +10,29 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import school.os.mobile.app.domain.model.SimpleResult
-import school.os.mobile.app.domain.use_case.GetCheckPhoneNumberUseCase
-import school.os.mobile.app.domain.use_case.GetVerifyPhoneUseCase
+import school.os.mobile.app.domain.use_case.GetPasswordUseCase
+import school.os.mobile.app.domain.use_case.GetUserLoginUseCase
 import school.os.mobile.app.utils.Constants
 import school.os.mobile.app.utils.DataParser
 import javax.inject.Inject
 
 @HiltViewModel
-class VerifyPhoneViewModel @Inject constructor(
-    private val useUseCase: GetVerifyPhoneUseCase,
-    private val checkPhoneUseUseCase: GetCheckPhoneNumberUseCase,
+class PasswordViewModel @Inject constructor(
+    private val useCase: GetPasswordUseCase
 ) : ViewModel() {
     private val _state = mutableStateOf(SimpleResultState())
     val state: State<SimpleResultState> = _state
 
-    // repository and passing it into live data
-    fun resendCode(phone: String) {
-        checkPhoneUseUseCase(phone = phone).onEach { result ->
-            handleResponse(result = result)
-        }.launchIn(viewModelScope)
+
+    fun initPasswordReset(phone: String) {
+        useCase.initPasswordReset(phone).onEach {
+            handleResponse(it)
+        }
     }
 
     // repository and passing it into live data
-    fun verifyPhoneNumber(phone: String, code: String, password: String) {
-        useUseCase(phone = phone, code = code, password = password).onEach { result ->
+    fun resetPassword(phone: String, code: String, password: String) {
+        useCase.resetPassword(phone = phone, code = code, password = password).onEach { result ->
             handleResponse(result = result)
         }.launchIn(viewModelScope)
     }

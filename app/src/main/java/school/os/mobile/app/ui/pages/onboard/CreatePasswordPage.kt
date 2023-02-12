@@ -12,23 +12,47 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import school.os.mobile.app.R
+import school.os.mobile.app.presentation.VerifyPhoneViewModel
 import school.os.mobile.app.ui.AppPrimaryButton
 import school.os.mobile.app.ui.CustomPasswordField
 import school.os.mobile.app.ui.pages.CustomAlertDialog
+import school.os.mobile.app.ui.theme.Primary
 import school.os.mobile.app.ui.theme.Typography
+import school.os.mobile.app.utils.ScreenAndRoute
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreatePasswordPage(navController: NavHostController, phone: String) {
+fun CreatePasswordPage(
+    navController: NavHostController,
+    phone: String,
+    viewModel: VerifyPhoneViewModel
+) {
     var password by rememberSaveable { mutableStateOf("") }
     var passwordAgain by rememberSaveable { mutableStateOf("") }
-    var showCustomDialog by remember {
-        mutableStateOf(false)
+    val state = viewModel.state
+    val phoneIn = phone.split("@")[0]
+    val codeIn = phone.split("@")[1]
+
+    val showDialog = remember { mutableStateOf(false) }
+    if (showDialog.value) {
+        CustomAlertDialog(stringResource(id = R.string.app_name),
+            stringResource(id = R.string.error_password_not_matching),
+            stringResource(id = R.string.dialog_action_cancel),
+            stringResource(id = R.string.dialog_action_done),
+            onDismiss = {
+                showDialog.value = it
+            },
+            setActionTaken = {
+
+            }
+        )
     }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceAround,
@@ -67,32 +91,32 @@ fun CreatePasswordPage(navController: NavHostController, phone: String) {
         ) {
             passwordAgain = it
         }
-        AppPrimaryButton(
+        if (!state.value.isLoading) AppPrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 64.dp),
             title = stringResource(id = R.string.create_password),
             click = {
                 if (password.isBlank() || password != passwordAgain) {
-                    showCustomDialog = !showCustomDialog
+                    showDialog.value = true
                     return@AppPrimaryButton
                 }
-            })
+                viewModel.verifyPhoneNumber(phoneIn, codeIn, password)
+            }) else CircularProgressIndicator(
+            modifier = Modifier
+                .size(64.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 32.dp),
+            color = Primary
+        )
         Spacer(modifier = Modifier.weight(1.0f))
-
-        if (showCustomDialog) {
-            CustomAlertDialog(stringResource(id = R.string.app_name),
-                stringResource(id = R.string.error_password_not_matching),
-                stringResource(id = R.string.dialog_action_cancel),
-                stringResource(id = R.string.dialog_action_done),
-                {
-                    showCustomDialog = !showCustomDialog
-                },
-                {
-                    showCustomDialog = !showCustomDialog
-//                val activity = (context as? Activity)
-//                activity?.finish()
-                })
+        if (!state.value.isLoading && !state.value.hasError) {
+            state.value.data?.let {
+                LaunchedEffect(key1 = ScreenAndRoute.MainScreen) {
+                    navController.navigate(
+                        ScreenAndRoute.MainScreen.route
+                    )
+                }
+            }
         }
     }
 }
@@ -102,6 +126,7 @@ fun CreatePasswordPage(navController: NavHostController, phone: String) {
 fun DefaultPreviewCreatePassword() {
     CreatePasswordPage(
         navController = rememberNavController(),
-        phone = "+233500294411"
+        phone = "+233500294411",
+        viewModel = viewModel()
     )
 }

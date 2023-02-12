@@ -43,7 +43,6 @@ fun PhoneNumberScreen(navController: NavHostController, viewModel: CheckUserView
     var showCustomDialog by remember {
         mutableStateOf(state.value.hasError)
     }
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceAround,
@@ -52,6 +51,7 @@ fun PhoneNumberScreen(navController: NavHostController, viewModel: CheckUserView
             .padding(32.dp)
             .verticalScroll(rememberScrollState())
     ) {
+
         Spacer(modifier = Modifier.weight(1.0f))
         Text(
             text = stringResource(id = R.string.welcome_title),

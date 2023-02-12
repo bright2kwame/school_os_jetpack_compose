@@ -32,11 +32,11 @@ fun CustomAlertDialog(
     message: String,
     negativeAction: String,
     positiveAction: String,
-    onDismiss: () -> Unit,
-    onExit: () -> Unit
+    onDismiss: (Boolean) -> Unit,
+    setActionTaken: (Boolean) -> Unit,
 ) {
     Dialog(
-        onDismissRequest = { onDismiss() }, properties = DialogProperties(
+        onDismissRequest = { onDismiss(false) }, properties = DialogProperties(
             dismissOnBackPress = false, dismissOnClickOutside = false
         )
     ) {
@@ -85,7 +85,7 @@ fun CustomAlertDialog(
                 ) {
                     TextButton(
                         onClick = {
-                            onDismiss()
+                            setActionTaken(true)
                         },
                         Modifier.padding(top = 5.dp, bottom = 5.dp),
                     ) {
@@ -98,7 +98,7 @@ fun CustomAlertDialog(
                     }
                     TextButton(
                         onClick = {
-                            onExit()
+                            setActionTaken(false)
                         },
                         Modifier.padding(top = 5.dp, bottom = 5.dp),
                     ) {
@@ -157,7 +157,8 @@ fun DefaultPreviewDialog() {
     )
 }
 
-@Preview(showBackground = true , showSystemUi = true,
+@Preview(
+    showBackground = true, showSystemUi = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL
 )
 @Composable
