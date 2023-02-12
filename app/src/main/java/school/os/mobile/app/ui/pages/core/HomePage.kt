@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -23,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import school.os.mobile.app.ui.theme.Primary
 import school.os.mobile.app.ui.theme.White
 import school.os.mobile.app.R
+import school.os.mobile.app.ui.theme.Typography
 
 
 @Composable
@@ -43,16 +45,19 @@ fun HomeScreenPage() {
 fun CustomTopBar() {
     TopAppBar(
         title = {
-            Text(text = stringResource(id = R.string.app_name))
+            Text(
+                text = stringResource(id = R.string.app_name_title),
+                style = Typography.titleMedium
+            )
         },
-//        navigationIcon = {
-//            IconButton(onClick = {}) {
-//                Icon(Icons.Outlined.Home, "backIcon")
-//            }
-//        },
         backgroundColor = White,
-        contentColor = Primary,
-        elevation = 0.dp
+        contentColor = Color.Gray,
+        elevation = 0.dp,
+        actions = {
+            IconButton(onClick = { /* doSomething() */ }) {
+                Icon(Icons.Outlined.Notifications, contentDescription = "")
+            }
+        }
     )
 }
 

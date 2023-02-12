@@ -12,6 +12,7 @@ sealed class ScreenAndRoute(val route: String) {
     object HomeAnalyticsScreen : ScreenAndRoute(route = "home_analytics_screen")
     object HomePaymentsScreen : ScreenAndRoute(route = "home_payments_screen")
     object HomeScreen : ScreenAndRoute(route = "home_screen")
+    object MainScreen : ScreenAndRoute(route = "main_screen")
 
 
     fun withArgs(vararg args: String): String {

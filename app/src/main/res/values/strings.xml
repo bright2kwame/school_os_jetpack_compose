@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">School OS</string>
+    <string name="app_name_title">Today on School OS</string>
     <string name="get_started">Get Started</string>
     <string name="login_title">Login</string>
     <string name="register_title">Create New Account</string>
     <string name="title_activity_register_or_login_page">RegisterOrLoginPage</string>
     <string name="welcome_title">Welcome of School OS</string>
     <string name="welcome_message">Payment of fees made easier and faster like never before.</string>
+    <string name="phone_number_message">Enter your phone number to secure an account for yourself on School OS.</string>
     <string name="country_choose_title">Select Country Code</string>
     <string name="register_or_login">" Or "</string>
     <string name="no_internet_message">Failed to reach server, check internet connection</string>

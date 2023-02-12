@@ -1,6 +1,5 @@
-package school.os.mobile.app.ui.pages
+package school.os.mobile.app.ui.pages.onboard
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -9,7 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -25,9 +24,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import school.os.mobile.app.R
+import school.os.mobile.app.presentation.VerifyPhoneViewModel
 import school.os.mobile.app.ui.AppPrimaryButton
 import school.os.mobile.app.ui.theme.Primary
 import school.os.mobile.app.ui.theme.Typography
@@ -36,9 +37,13 @@ import school.os.mobile.app.ui.theme.White
 
 //MARK: verify the phone number added to the field
 @Composable
-fun VerificationPage(navController: NavHostController, phone: String) {
+fun VerificationPage(
+    navController: NavHostController,
+    phoneNumber: String,
+    viewModel: VerifyPhoneViewModel
+) {
     var code by rememberSaveable { mutableStateOf("") }
-
+    val state = viewModel.state
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceAround,
@@ -54,7 +59,7 @@ fun VerificationPage(navController: NavHostController, phone: String) {
             style = Typography.titleMedium
         )
         Text(
-            text = stringResource(id = R.string.verify_message, phone),
+            text = stringResource(id = R.string.verify_message, phoneNumber),
             textAlign = TextAlign.Center,
             style = Typography.titleSmall,
             modifier = Modifier
@@ -75,11 +80,21 @@ fun VerificationPage(navController: NavHostController, phone: String) {
             click = {
 
             })
-        TextButton(onClick = {}) {
-            Text(
-                text = stringResource(id = R.string.resend_code),
-                color = Primary,
-                style = Typography.titleMedium
+        Box() {
+            if (!state.value.isLoading) TextButton(onClick = {
+                viewModel.resendCode(phoneNumber)
+            }) {
+                Text(
+                    text = stringResource(id = R.string.resend_code),
+                    color = Primary,
+                    style = Typography.titleMedium
+                )
+            }
+            else CircularProgressIndicator(
+                modifier = Modifier
+                    .size(64.dp)
+                    .padding(start = 16.dp, end = 16.dp, top = 32.dp),
+                color = Primary
             )
         }
         Spacer(modifier = Modifier.weight(1.0f))
@@ -158,6 +173,7 @@ private fun CharView(
 fun DefaultPreviewVerify() {
     VerificationPage(
         navController = rememberNavController(),
-        phone = "+233500294411"
+        "",
+        viewModel = viewModel()
     )
 }

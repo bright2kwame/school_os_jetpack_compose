@@ -3,6 +3,7 @@ package school.os.mobile.app.ui.pages
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.rememberPagerState
@@ -15,8 +16,13 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import school.os.mobile.app.domain.model.onboardPages
+import school.os.mobile.app.presentation.CheckUserViewModel
+import school.os.mobile.app.ui.pages.core.HomeScreenPage
 import school.os.mobile.app.ui.pages.onboard.CreatePasswordPage
+import school.os.mobile.app.ui.pages.onboard.PhoneNumberScreen
+import school.os.mobile.app.ui.pages.onboard.VerificationPage
 import school.os.mobile.app.ui.theme.*
+import school.os.mobile.app.utils.Constants
 import school.os.mobile.app.utils.ScreenAndRoute
 
 @AndroidEntryPoint
@@ -34,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     val pager = rememberPagerState(initialPage = 0)
                     val navController = rememberNavController()
 
-                   //DestinationsNavHost(navGraph = NavGraphs.root)
+                    //DestinationsNavHost(navGraph = NavGraphs.root)
                     NavHost(
                         navController = navController,
                         startDestination = ScreenAndRoute.OnboardScreen.route
@@ -53,39 +59,49 @@ class MainActivity : ComponentActivity() {
                         }
                         //MARK: screen to enter password
                         composable(route = ScreenAndRoute.PhoneNumberScreen.route) {
-                            PhoneNumberScreen(navController = navController)
+                            val vm: CheckUserViewModel by viewModels()
+                            PhoneNumberScreen(navController = navController, vm)
                         }
                         //MARK: login wit password screen
-                        composable( ScreenAndRoute.LoginPasswordScreen.route.plus("/{phone}"),
-                            arguments = listOf(navArgument("phone") {
+                        composable(ScreenAndRoute.LoginPasswordScreen.route.plus("/{phone}"),
+                            arguments = listOf(navArgument(Constants.ROUTE_PARAM_USER_PHONE) {
                                 type = NavType.StringType
-                            })) {
-                            val phone = requireNotNull(it.arguments).getString("phone")
+                            })
+                        ) {
+                            val phone = requireNotNull(it.arguments).getString(Constants.ROUTE_PARAM_USER_PHONE)
                             LoginPasswordPage(navController, phone!!)
                         }
                         //MARK: screen to create password
-                        composable( ScreenAndRoute.CreatePasswordScreen.route.plus("/{phone}"),
-                            arguments = listOf(navArgument("phone") {
+                        composable(ScreenAndRoute.CreatePasswordScreen.route.plus("/{phone}"),
+                            arguments = listOf(navArgument(Constants.ROUTE_PARAM_USER_PHONE) {
                                 type = NavType.StringType
-                            })) {
-                            val phone = requireNotNull(it.arguments).getString("phone")
+                            })
+                        ) {
+                            val phone = requireNotNull(it.arguments).getString(Constants.ROUTE_PARAM_USER_PHONE)
                             CreatePasswordPage(navController, phone!!)
                         }
                         //MARK: screen to verify phone number
-                        composable( ScreenAndRoute.VerifyPhoneNumberScreen.route.plus("/{phone}"),
-                            arguments = listOf(navArgument("phone") {
+                        composable(ScreenAndRoute.VerifyPhoneNumberScreen.route.plus("/{phone}"),
+                            arguments = listOf(navArgument(Constants.ROUTE_PARAM_USER_PHONE) {
                                 type = NavType.StringType
-                            })) {
-                            val phone = requireNotNull(it.arguments).getString("phone")
+                            })
+                        ) {
+                            val phone = requireNotNull(it.arguments).getString(Constants.ROUTE_PARAM_USER_PHONE)
                             VerificationPage(navController, phone!!)
                         }
                         //MARK: screen to reset the password
-                        composable( ScreenAndRoute.ResetPasswordScreen.route.plus("/{phone}"),
-                            arguments = listOf(navArgument("phone") {
+                        composable(ScreenAndRoute.ResetPasswordScreen.route.plus("/{phone}"),
+                            arguments = listOf(navArgument(Constants.ROUTE_PARAM_USER_PHONE) {
                                 type = NavType.StringType
-                            })) {
-                            val phone = requireNotNull(it.arguments).getString("phone")
+                            })
+                        ) {
+                            val phone = requireNotNull(it.arguments).getString(Constants.ROUTE_PARAM_USER_PHONE)
                             ResetPasswordPage(navController, phone!!)
+                        }
+
+                        //MARK: the main tab page
+                        composable(route = ScreenAndRoute.MainScreen.route) {
+                            HomeScreenPage()
                         }
 
                     }

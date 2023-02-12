@@ -1,32 +1,38 @@
 package school.os.mobile.app.data.remote
 
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import school.os.mobile.app.data.remote.dto.LoginUserDto
-import school.os.mobile.app.data.remote.dto.UserDto
-import school.os.mobile.app.data.remote.dto.UserResultDto
+import retrofit2.http.*
+import school.os.mobile.app.data.remote.dto.*
 
 
 interface SchoolOSApi {
 
-    @GET("users/list/")
-    suspend fun getUsers(): List<UserDto>
+    @POST("users/check_username/")
+    suspend fun checkUserByUserName(@Body checkUserDto: CheckUserDto): SimpleResultDto
 
-    @GET("users/list/{userId}/")
-    suspend fun getUserById(@Path("userId") userId: String): UserDto
+    @POST("users/verify_phone_number/")
+    suspend fun verifyPhoneNumber(@Body checkUserDto: VerifyPhoneDto): SimpleResultDto
+
+    @GET("users/list/")
+    suspend fun getUsers(): List<UserResultDto>
+
+    @GET("users/{userId}/")
+    suspend fun getUser(@Path("userId") userId: String): UserResultDto
+
+    @PUT("users/me/")
+    suspend fun updateUser(@Body user: UserDto): UserResultDto
 
     @POST("users/login/")
-    suspend fun login(@Body user: LoginUserDto): UserResultDto
+    suspend fun login(@Body userLoginDto: UserLoginDto): UserResultDto
 
-    @POST("users/check_phone_number/")
-    suspend fun checkPhoneNumber(@Body user: LoginUserDto): UserResultDto
+    @POST("users/password_reset_sms/")
+    suspend fun initPasswordReset(@Body user: InitPasswordChangeDto): SimpleResultDto
 
     @POST("users/reset_password/")
-    suspend fun resetPassword(@Body user: LoginUserDto): UserResultDto
+    suspend fun resetPassword(@Body user: ResetPasswordDto): SimpleResultDto
 
-    @POST("users/set_password/")
-    suspend fun setPassword(@Body user: LoginUserDto): UserResultDto
+    @POST("users/change_password/")
+    suspend fun changePassword(
+        @Body user: ChangePasswordDto
+    ): UserResultDto
 
 }
