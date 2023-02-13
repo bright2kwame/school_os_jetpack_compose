@@ -1,4 +1,4 @@
-package school.os.mobile.app.ui.pages
+package school.os.mobile.app.ui.pages.onboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

@@ -1,5 +1,6 @@
 package school.os.mobile.app.ui.pages.core
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
@@ -27,6 +28,7 @@ import school.os.mobile.app.R
 import school.os.mobile.app.ui.theme.Typography
 
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreenPage() {
     val navController = rememberNavController()
@@ -36,7 +38,6 @@ fun HomeScreenPage() {
         scaffoldState = scaffoldState,
         topBar = { CustomTopBar() },
     ) {
-
         NavigationGraph(navController = navController)
     }
 }

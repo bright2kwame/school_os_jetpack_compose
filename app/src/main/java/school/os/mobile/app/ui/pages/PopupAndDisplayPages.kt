@@ -25,6 +25,7 @@ import school.os.mobile.app.R
 import school.os.mobile.app.ui.theme.Background
 import school.os.mobile.app.ui.theme.Primary
 import school.os.mobile.app.ui.theme.Shapes
+import school.os.mobile.app.ui.theme.Typography
 
 @Composable
 fun CustomAlertDialog(
@@ -44,7 +45,7 @@ fun CustomAlertDialog(
             shape = Shapes.medium,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(0.dp),
         ) {
             Column(
                 Modifier
@@ -56,7 +57,7 @@ fun CustomAlertDialog(
                     contentDescription = title,
                     modifier = Modifier
                         .padding(top = 35.dp)
-                        .height(70.dp)
+                        .height(100.dp)
                         .fillMaxWidth(),
                     contentScale = ContentScale.Inside
                 )
@@ -64,7 +65,7 @@ fun CustomAlertDialog(
                     Text(
                         text = title,
                         modifier = Modifier.fillMaxWidth(),
-                        style = MaterialTheme.typography.labelLarge,
+                        style = Typography.titleLarge,
                         textAlign = TextAlign.Center,
                     )
                     Text(
@@ -72,7 +73,7 @@ fun CustomAlertDialog(
                         modifier = Modifier
                             .padding(top = 10.dp, start = 25.dp, end = 25.dp)
                             .fillMaxWidth(),
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = Typography.titleMedium,
                         textAlign = TextAlign.Center
                     )
                 }
@@ -81,7 +82,7 @@ fun CustomAlertDialog(
                         .fillMaxWidth()
                         .padding(top = 10.dp)
                         .background(Background),
-                    horizontalArrangement = Arrangement.SpaceAround
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     TextButton(
                         onClick = {
@@ -93,7 +94,7 @@ fun CustomAlertDialog(
                             text = positiveAction,
                             fontWeight = FontWeight.ExtraBold,
                             color = Primary,
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = Typography.titleMedium,
                         )
                     }
                     TextButton(
@@ -106,7 +107,7 @@ fun CustomAlertDialog(
                             text = negativeAction,
                             fontWeight = FontWeight.Bold,
                             color = Primary,
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = Typography.titleMedium,
                         )
                     }
                 }
@@ -116,8 +117,8 @@ fun CustomAlertDialog(
 }
 
 @Composable
-fun LoadingView(progressMessage: String, onDismiss: () -> Unit) {
-    Dialog(onDismissRequest = { onDismiss() }) {
+fun LoadingView(progressMessage: String, onDismiss: (Boolean) -> Unit) {
+    Dialog(onDismissRequest = { onDismiss(false) }) {
         Card(
             shape = Shapes.small,
             modifier = Modifier,
@@ -125,7 +126,7 @@ fun LoadingView(progressMessage: String, onDismiss: () -> Unit) {
             Column(
                 Modifier
                     .background(Color.White)
-                    .padding(12.dp)
+                    .padding(0.dp)
             ) {
                 Text(
                     text = progressMessage,

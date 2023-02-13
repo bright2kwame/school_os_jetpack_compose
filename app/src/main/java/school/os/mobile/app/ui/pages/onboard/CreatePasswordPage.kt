@@ -1,5 +1,6 @@
 package school.os.mobile.app.ui.pages.onboard
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -40,15 +41,19 @@ fun CreatePasswordPage(
 
     val showDialog = remember { mutableStateOf(false) }
     if (showDialog.value) {
+        val message = if (state.value.hasError) {
+            state.value.error
+        } else stringResource(id = R.string.error_password_not_matching)
         CustomAlertDialog(stringResource(id = R.string.app_name),
-            stringResource(id = R.string.error_password_not_matching),
+            message,
             stringResource(id = R.string.dialog_action_cancel),
             stringResource(id = R.string.dialog_action_done),
             onDismiss = {
+                Log.e("PASSWORD", it.toString())
                 showDialog.value = it
             },
             setActionTaken = {
-
+                showDialog.value = false
             }
         )
     }
@@ -68,7 +73,7 @@ fun CreatePasswordPage(
             style = Typography.titleMedium
         )
         Text(
-            text = stringResource(id = R.string.new_password_title_hint, phone),
+            text = stringResource(id = R.string.new_password_title_hint, phoneIn),
             textAlign = TextAlign.Center,
             style = Typography.titleSmall,
             modifier = Modifier
@@ -91,24 +96,31 @@ fun CreatePasswordPage(
         ) {
             passwordAgain = it
         }
-        if (!state.value.isLoading) AppPrimaryButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 64.dp),
-            title = stringResource(id = R.string.create_password),
-            click = {
-                if (password.isBlank() || password != passwordAgain) {
-                    showDialog.value = true
-                    return@AppPrimaryButton
-                }
-                viewModel.verifyPhoneNumber(phoneIn, codeIn, password)
-            }) else CircularProgressIndicator(
-            modifier = Modifier
-                .size(64.dp)
-                .padding(start = 16.dp, end = 16.dp, top = 32.dp),
-            color = Primary
-        )
+        Box() {
+            if (!state.value.isLoading) AppPrimaryButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 64.dp),
+                title = stringResource(id = R.string.create_password),
+                click = {
+                    if (password.isBlank() || password != passwordAgain) {
+                        showDialog.value = true
+                        return@AppPrimaryButton
+                    }
+                    viewModel.verifyPhoneNumber(phoneIn, codeIn, password)
+                }) else CircularProgressIndicator(
+                modifier = Modifier
+                    .size(64.dp)
+                    .padding(start = 16.dp, end = 16.dp, top = 64.dp),
+                color = Primary
+            )
+        }
         Spacer(modifier = Modifier.weight(1.0f))
+        if (!state.value.isLoading && state.value.hasError) {
+            LaunchedEffect(key1 = ScreenAndRoute.CreatePasswordScreen.route) {
+                showDialog.value = true
+            }
+        }
         if (!state.value.isLoading && !state.value.hasError) {
             state.value.data?.let {
                 LaunchedEffect(key1 = ScreenAndRoute.MainScreen) {

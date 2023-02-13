@@ -22,6 +22,7 @@ enum class ResultStatusCode(val value: Int) {
 
 enum class UserPostAction {
     UPDATE,
+    SET,
     NONE,
 }
 

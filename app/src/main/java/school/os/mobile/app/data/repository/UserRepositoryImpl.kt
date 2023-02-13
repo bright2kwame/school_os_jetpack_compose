@@ -189,6 +189,8 @@ class UserRepositoryImpl @Inject constructor(
             //MARK: if the action is to update then take action
             if (postAction == UserPostAction.UPDATE) {
                 userDao.updateUser(user = user.result.toUserEntity())
+            } else if (postAction == UserPostAction.SET) {
+                userDao.addUser(user.result.toUserEntity())
             }
             emit(DataParser.Success<UserResult>(user.toUserResult()))
         } catch (e: HttpException) {

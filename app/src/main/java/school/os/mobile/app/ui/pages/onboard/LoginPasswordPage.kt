@@ -40,19 +40,19 @@ fun LoginPasswordPage(
 ) {
     var password by rememberSaveable { mutableStateOf("") }
     val state = loginViewModel.state
-    val context = LocalContext.current
-
     val showDialog = remember { mutableStateOf(false) }
     if (showDialog.value) {
+        val errorMessage =
+            if (state.value.hasError) state.value.error else stringResource(id = R.string.enter_password)
         CustomAlertDialog(stringResource(id = R.string.app_name),
-            stringResource(id = R.string.error_password_not_matching),
+            errorMessage,
             stringResource(id = R.string.dialog_action_cancel),
             stringResource(id = R.string.dialog_action_done),
             onDismiss = {
                 showDialog.value = it
             },
             setActionTaken = {
-
+                showDialog.value = false
             }
         )
     }
@@ -88,23 +88,25 @@ fun LoginPasswordPage(
         ) {
             password = it
         }
-        if (!state.value.isLoading) AppPrimaryButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 64.dp),
-            title = stringResource(id = R.string.login_title),
-            click = {
-                if (password.isBlank()) {
-                    showDialog.value = true
-                } else {
-                    loginViewModel.login(phoneNumber, password)
-                }
-            }) else CircularProgressIndicator(
-            modifier = Modifier
-                .size(64.dp)
-                .padding(start = 16.dp, end = 16.dp, top = 32.dp),
-            color = Primary
-        )
+        Box() {
+            if (!state.value.isLoading) AppPrimaryButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 64.dp),
+                title = stringResource(id = R.string.login_title),
+                click = {
+                    if (password.isBlank()) {
+                        showDialog.value = true
+                    } else {
+                        loginViewModel.login(phoneNumber, password)
+                    }
+                }) else CircularProgressIndicator(
+                modifier = Modifier
+                    .size(64.dp)
+                    .padding(start = 16.dp, end = 16.dp, top = 64.dp),
+                color = Primary
+            )
+        }
         TextButton(onClick = {
             navController.navigate(ScreenAndRoute.ResetPasswordScreen.withArgs(phoneNumber))
         }) {
@@ -115,7 +117,12 @@ fun LoginPasswordPage(
             )
         }
         Spacer(modifier = Modifier.weight(1.0f))
-        if (!state.value.isLoading && !state.value.hasError) {
+        if (!state.value.isLoading && state.value.hasError) {
+            LaunchedEffect(key1 = ScreenAndRoute.LoginPasswordScreen.route) {
+                showDialog.value = true
+            }
+        }
+        if (!state.value.isLoading && !state.value.hasError && state.value.data != null) {
             state.value.data?.let {
                 LaunchedEffect(key1 = ScreenAndRoute.MainScreen) {
                     navController.navigate(

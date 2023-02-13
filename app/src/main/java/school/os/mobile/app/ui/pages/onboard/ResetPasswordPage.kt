@@ -49,7 +49,7 @@ fun ResetPasswordPage(
                 showDialog.value = it
             },
             setActionTaken = {
-
+                showDialog.value = false
             }
         )
     }
@@ -105,28 +105,35 @@ fun ResetPasswordPage(
         ) {
             passwordAgain = it
         }
-        if (!state.value.isLoading) AppPrimaryButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 64.dp),
-            title = stringResource(id = R.string.reset_password),
-            click = {
-                if (uniqueCode.isBlank() || password.isBlank() || passwordAgain.isBlank()) {
-                    showDialog.value = true
-                    return@AppPrimaryButton
-                }
-                if (password != passwordAgain) {
-                    showDialog.value = true
-                    return@AppPrimaryButton
-                }
-                passwordViewModel.resetPassword(phone, uniqueCode, password)
-            }) else CircularProgressIndicator(
-            modifier = Modifier
-                .size(64.dp)
-                .padding(start = 16.dp, end = 16.dp, top = 32.dp),
-            color = Primary
-        )
+        Box() {
+            if (!state.value.isLoading) AppPrimaryButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 64.dp),
+                title = stringResource(id = R.string.reset_password),
+                click = {
+                    if (uniqueCode.isBlank() || password.isBlank() || passwordAgain.isBlank()) {
+                        showDialog.value = true
+                        return@AppPrimaryButton
+                    }
+                    if (password != passwordAgain) {
+                        showDialog.value = true
+                        return@AppPrimaryButton
+                    }
+                    passwordViewModel.resetPassword(phone, uniqueCode, password)
+                }) else CircularProgressIndicator(
+                modifier = Modifier
+                    .size(64.dp)
+                    .padding(start = 16.dp, end = 16.dp, top = 64.dp),
+                color = Primary
+            )
+        }
         Spacer(modifier = Modifier.weight(1.0f))
+        if (!state.value.isLoading && state.value.hasError) {
+            LaunchedEffect(key1 = ScreenAndRoute.ResetPasswordScreen.route) {
+                showDialog.value = true
+            }
+        }
         if (!state.value.isLoading && !state.value.hasError) {
             state.value.data?.let {
                 LaunchedEffect(key1 = ScreenAndRoute.LoginPasswordScreen) {

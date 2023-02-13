@@ -40,8 +40,20 @@ fun PhoneNumberScreen(navController: NavHostController, viewModel: CheckUserView
     val phoneNumber = rememberSaveable { mutableStateOf("") }
     val fullPhoneNumber = rememberSaveable { mutableStateOf("") }
     val state = viewModel.state
-    var showCustomDialog by remember {
-        mutableStateOf(state.value.hasError)
+    val showDialog = remember { mutableStateOf(state.value.hasError) }
+    if (showDialog.value) {
+        val message =
+            if (state.value.hasError) state.value.error else stringResource(id = R.string.phone_number_required)
+        CustomAlertDialog(stringResource(id = R.string.app_name),
+            message = message,
+            stringResource(id = R.string.dialog_action_cancel),
+            stringResource(id = R.string.dialog_action_try),
+            {
+                showDialog.value = it
+            },
+            {
+                showDialog.value = false
+            })
     }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -85,23 +97,30 @@ fun PhoneNumberScreen(navController: NavHostController, viewModel: CheckUserView
             if (!state.value.isLoading) AppPrimaryButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 32.dp),
+                    .padding(start = 12.dp, end = 12.dp, top = 32.dp),
                 title = stringResource(id = R.string.login_title),
                 click = {
-                    if (!isPhoneNumber()) {
-                        fullPhoneNumber.value = getFullPhoneNumber()
+                    fullPhoneNumber.value = getFullPhoneNumber()
+                    if (phoneNumber.value.isBlank()) {
+                        showDialog.value = true
+                        return@AppPrimaryButton
                     }
                     viewModel.checkUser(fullPhoneNumber.value)
                 }) else {
                 CircularProgressIndicator(
                     modifier = Modifier
                         .size(64.dp)
-                        .padding(start = 16.dp, end = 16.dp, top = 32.dp),
+                        .padding(start = 16.dp, end = 16.dp, top = 64.dp),
                     color = Primary
                 )
             }
         }
         Spacer(modifier = Modifier.weight(1.0f))
+        if (!state.value.isLoading && state.value.hasError) {
+            LaunchedEffect(key1 = ScreenAndRoute.PhoneNumberScreen.route) {
+                showDialog.value = true
+            }
+        }
         if (!state.value.isLoading && !state.value.hasError) {
             state.value.data?.let {
                 when (it.responseCode) {
@@ -134,19 +153,6 @@ fun PhoneNumberScreen(navController: NavHostController, viewModel: CheckUserView
                     }
                 }
             }
-        }
-        if (showCustomDialog) {
-            CustomAlertDialog(stringResource(id = R.string.app_name),
-                state.value.error,
-                stringResource(id = R.string.dialog_action_cancel),
-                stringResource(id = R.string.dialog_action_try),
-                {
-                    showCustomDialog = !showCustomDialog
-                    Log.e("UPDATE", state.value.hasError.toString())
-                },
-                {
-                    showCustomDialog = !showCustomDialog
-                })
         }
     }
 

@@ -1,5 +1,6 @@
 package school.os.mobile.app.ui.pages.onboard
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -12,11 +13,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +30,7 @@ import androidx.navigation.compose.rememberNavController
 import school.os.mobile.app.R
 import school.os.mobile.app.presentation.VerifyPhoneViewModel
 import school.os.mobile.app.ui.AppPrimaryButton
+import school.os.mobile.app.ui.pages.CustomAlertDialog
 import school.os.mobile.app.ui.theme.Primary
 import school.os.mobile.app.ui.theme.Typography
 import school.os.mobile.app.ui.theme.White
@@ -49,6 +48,24 @@ fun VerificationPage(
     val state = viewModel.state
     val otpLength: Int = 4
     val context = LocalContext.current
+    val showDialog = remember { mutableStateOf(false) }
+    if (showDialog.value) {
+        val message = if (state.value.hasError) {
+            state.value.error
+        } else stringResource(id = R.string.verify_message, phoneNumber)
+        CustomAlertDialog(stringResource(id = R.string.app_name),
+            message,
+            stringResource(id = R.string.dialog_action_cancel),
+            stringResource(id = R.string.dialog_action_done),
+            onDismiss = {
+                showDialog.value = it
+            },
+            setActionTaken = {
+                showDialog.value = false
+            }
+        )
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceAround,
@@ -75,7 +92,7 @@ fun VerificationPage(
             modifier = Modifier.fillMaxSize(),
             otpText = code,
             otpCount = otpLength,
-            onOtpTextChange = { text, isValid ->
+            onOtpTextChange = { text, _ ->
                 code = text
             })
         AppPrimaryButton(
@@ -86,7 +103,7 @@ fun VerificationPage(
             click = {
                 if (code.length < otpLength) {
                     Toast.makeText(
-                        context, "Please enter OTP you received",
+                        context, "Please enter the OTP you received",
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
@@ -106,7 +123,9 @@ fun VerificationPage(
                 Text(
                     text = stringResource(id = R.string.resend_code),
                     color = Primary,
-                    style = Typography.titleMedium
+                    style = Typography.titleMedium,
+                    modifier = Modifier
+                        .padding(start = 16.dp, end = 16.dp, top = 32.dp),
                 )
             }
             else CircularProgressIndicator(
@@ -117,12 +136,15 @@ fun VerificationPage(
             )
         }
         Spacer(modifier = Modifier.weight(1.0f))
-        if (!state.value.hasError && state.value.data != null) {
-            Toast.makeText(
-                context,
-                state.value.data!!.responseMessage,
-                Toast.LENGTH_LONG
-            ).show()
+        if (!state.value.isLoading && state.value.hasError) {
+            LaunchedEffect(key1 = ScreenAndRoute.VerifyPhoneNumberScreen.route) {
+                showDialog.value = true
+            }
+        }
+        if (!state.value.isLoading && !state.value.hasError && state.value.data != null) {
+            LaunchedEffect(key1 = ScreenAndRoute.VerifyPhoneNumberScreen.route) {
+                showDialog.value = true
+            }
         }
     }
 }
